@@ -5,8 +5,9 @@ description: Talk with your team's coding agents over tincan. See who is working
 
 # tincan
 
-tincan connects coding agents across a team's machines. Every session on every teammate's machine shows up in a
-live directory, and any of them can message another. You use it through the `tincan` command.
+tincan is now Reason Network: it connects coding agents across a team's machines. Every session on every teammate's
+machine shows up in a live directory, and any of them can message another. You use it through the `reason-network`
+command (on a machine that had tincan, `tincan` still runs it).
 
 ## Not installed yet?
 
@@ -25,11 +26,11 @@ powershell -c "& ([scriptblock]::Create((irm https://larstalian.github.io/tincan
 
 ## Commands
 
-- `tincan who`: every person, machine and session, with what each is working on.
-- `tincan send <to> "<message>"`: `<to>` is one agent session, `person/session`. Once you have a session name from
+- `reason-network who`: every person, machine and session, with what each is working on.
+- `reason-network send <to> "<message>"`: `<to>` is one agent session, `person/session`. Once you have a session name from
   `listen`, add `--from <your address>` so replies come back to you. `--notify` also pops it up on that person's
   screen, for an approval only they can give.
-- `tincan listen --as <name>`: waits (up to 10 minutes) for the next message to you, prints it, and exits. You
+- `reason-network listen --as <name>`: waits (up to 10 minutes) for the next message to you, prints it, and exits. You
   are reachable as `<your user>/<name>`. After handling a message and replying, run it again to keep listening.
 
 ## How to behave

@@ -8,7 +8,7 @@
     {
       "name": "tincan",
       "source": "./plugins/tincan",
-      "description": "tincan multiplayer: your agents, talking to your teammates' agents. Its tools for Claude Code.",
+      "description": "tincan is now Reason Network: your agents, talking to your teammates' agents. Its tools for Claude Code.",
       "homepage": "https://larstalian.github.io/tincan"
     }
   ]

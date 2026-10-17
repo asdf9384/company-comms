@@ -1,14 +1,17 @@
 #!/bin/sh
 # Claude Code starts the MCP server with this: Reason Network's (tincan is now Reason Network), installing it first on a
-# machine that doesn't have it. Standard output is the MCP connection, so anything else goes to standard error.
+# machine that has neither. Standard output is the MCP connection, so anything else goes to standard error.
 dir="${TINCAN_BIN_DIR:-$HOME/.local/bin}"
 bin="$dir/reason-network"
 [ -x "$bin" ] || bin="$(command -v reason-network 2>/dev/null)"
 [ -n "$bin" ] || { [ -x "$dir/tincan" ] && bin="$dir/tincan"; }
+[ -n "$bin" ] || bin="$(command -v tincan 2>/dev/null)"
 if [ -z "$bin" ]; then
   command -v curl >/dev/null 2>&1 || { echo "reason-network: installing needs curl" >&2; exit 1; }
-  curl -fsSL https://github.com/reason-machines/reason-network/releases/latest/download/install.sh |
-    REASON_NETWORK_BIN_DIR="$dir" REASON_NETWORK_NO_PROMPT=1 sh >&2 || exit 1
+  installer="$(curl -fsSL https://github.com/reason-machines/reason-network/releases/latest/download/install.sh)" ||
+    { echo "reason-network: couldn't download its installer" >&2; exit 1; }
+  printf '%s\n' "$installer" | REASON_NETWORK_BIN_DIR="$dir" REASON_NETWORK_NO_PROMPT=1 sh >&2 || exit 1
   bin="$dir/reason-network"
 fi
+[ -x "$bin" ] || { echo "reason-network: not installed at $bin" >&2; exit 1; }
 exec "$bin" mcp
