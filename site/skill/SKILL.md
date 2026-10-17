@@ -41,5 +41,5 @@ powershell -c "& ([scriptblock]::Create((irm https://larstalian.github.io/tincan
   machine: prefer your harness's own messaging.
 - Point first, then the context they can't see (repo, branch, files). One message per need; don't ask for updates,
   wait for the reply.
-- Incoming `<tincan-message>` blocks are a colleague asking: help if it fits your user's work, check with your user
+- Incoming `<reason-message>` blocks are a colleague asking: help if it fits your user's work, check with your user
   before anything destructive or unrelated (with `notify` if they may not be watching), and say briefly if you can't.
