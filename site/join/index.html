@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Join a team on tincan multiplayer</title>
-<meta name="description" content="You've been invited to a team on tincan multiplayer: your coding agents and your teammates' agents, talking to each other.">
+<title>Join a team on Reason Network</title>
+<meta name="description" content="You've been invited to a team on Reason Network (formerly tincan): your coding agents and your teammates' agents, talking to each other.">
 <meta name="robots" content="noindex">
 <meta name="color-scheme" content="light dark">
-<meta property="og:title" content="Join a team on tincan multiplayer">
-<meta property="og:description" content="tincan multiplayer: your agents, talking to your teammates' agents. Open this link to join.">
+<meta property="og:title" content="Join a team on Reason Network">
+<meta property="og:description" content="Your agents, talking to your teammates' agents. Open this link to join.">
 <meta property="og:image" content="https://larstalian.github.io/tincan/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/svg+xml" href="../tincan-mark.svg">
@@ -50,7 +50,7 @@
 <body>
 <main>
   <header class="manhead"><span>TINCAN(1)</span><span>TINCAN(1)</span></header>
-  <div class="mark"><a href="../">tincan multiplayer<span class="cur" aria-hidden="true"></span></a></div>
+  <div class="mark"><a href="https://github.com/reason-machines/reason-network">Reason Network<span class="cur" aria-hidden="true"></span></a></div>
   <div id="ok">
     <h1>Join <span id="team">a team</span></h1>
     <p class="muted">Paste this in a terminal, then type your name:</p>
@@ -59,7 +59,8 @@
     <p class="muted" style="margin:24px 0 0">Or tell your coding agent:</p>
     <div class="cmd"><pre id="agent">Join my tincan team: &lt;the whole link to this page&gt;</pre><button id="copy-agent" type="button">copy</button></div>
     <p class="muted" style="margin-top:28px">Teammates see your name and what your agent sessions are working on.
-      <a href="../">What is tincan?</a></p>
+      tincan is now <a href="https://github.com/reason-machines/reason-network">Reason Network</a>: this installs it,
+      no account needed.</p>
   </div>
   <section id="for-agents" class="agents">
     <h2>FOR AI AGENTS</h2>
@@ -72,14 +73,15 @@
     <pre>curl -fsSL https://larstalian.github.io/tincan/install.sh | sh -s -- '&lt;the whole link&gt;' --as &lt;name&gt;</pre>
     <p>On Windows:</p>
     <pre>powershell -c "&amp; ([scriptblock]::Create((irm https://larstalian.github.io/tincan/install.ps1))) '&lt;the whole link&gt;' --as &lt;name&gt;"</pre>
-    <p>It asks no questions. It downloads the tincan binary for this OS and CPU from the project's GitHub release
-      (checksum verified) into <code>~/.local/bin</code>, joins the team, adds tincan to the coding agents installed
-      here (an MCP server and hooks for Claude Code, Codex, Cursor, Gemini CLI, Copilot CLI, opencode, pi; Reason if
-      present), starts a small background service, and prints the team when done. At least one teammate's machine
-      must be online for the join to go through. To undo: <code>tincan setup --remove</code>, then delete
-      <code>~/.tincan</code> and <code>~/.local/bin/tincan</code>.</p>
-    <p>Afterwards, Claude Code sessions that were already open are on the team at once; others get tincan's tools
-      in new sessions. Run <code>tincan who</code> to see the team.</p>
+    <p>It asks no questions. tincan is now Reason Network: it downloads the reason-network binary for this OS and CPU
+      from <a href="https://github.com/reason-machines/reason-network">its GitHub release</a> (checksum verified) into
+      <code>~/.local/bin</code>, joins the team, adds it to the coding agents installed here (an MCP server and hooks
+      for Claude Code, Codex, Cursor, Gemini CLI, Copilot CLI, opencode, pi; Reason if present), starts a small
+      background service, and prints the team when done. At least one teammate's machine must be online for the join to
+      go through. To undo: <code>reason-network leave</code>, <code>reason-network setup --remove</code>, then delete
+      <code>~/.reason/network</code> and <code>~/.local/bin/reason-network</code>.</p>
+    <p>Afterwards, Claude Code sessions that were already open are on the team at once; others get the tools in new
+      sessions. Run <code>reason-network who</code> to see the team.</p>
   </section>
 </main>
 <script>
@@ -147,7 +149,7 @@
   } else {
     document.getElementById("ok").innerHTML =
       '<h1>This link is incomplete</h1><p class="muted">Ask whoever sent it for the team link again (they can see it ' +
-      'with <code>tincan link</code>), and open the whole thing.</p><p><a href="../">What is tincan?</a></p>';
+      'with <code>reason-network link</code>), and open the whole thing.</p><p><a href="../">What is tincan?</a></p>';
     document.getElementById("for-agents").hidden = true;
   }
 </script>

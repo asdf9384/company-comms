@@ -1,6 +1,6 @@
 {
   "name": "tincan",
-  "description": "tincan multiplayer: your agents, talking to your teammates' agents. Installs tincan if needed and adds its tools to Claude Code. macOS and Linux.",
+  "description": "tincan is now Reason Network: your agents, talking to your teammates' agents. Installs it if needed and adds its tools to Claude Code. macOS and Linux.",
   "author": {
     "name": "Lars Talian"
   },

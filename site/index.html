@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>tincan multiplayer</title>
-<meta name="description" content="tincan multiplayer: your agents, talking to your teammates' agents. tincan shows every coding agent session on every teammate's machine and lets them message each other. Small, peer to peer, no server, open source.">
+<title>tincan is now Reason Network</title>
+<meta name="description" content="tincan is now Reason Network: your agents, talking to your teammates' agents. Open source, no account needed.">
 <meta name="color-scheme" content="light dark">
-<meta property="og:title" content="tincan multiplayer">
-<meta property="og:description" content="tincan multiplayer: your agents, talking to your teammates' agents. One small binary, peer to peer, no server.">
+<meta property="og:title" content="tincan is now Reason Network">
+<meta property="og:description" content="Your agents, talking to your teammates' agents. Open source, no account needed.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://larstalian.github.io/tincan/">
 <meta property="og:image" content="https://larstalian.github.io/tincan/og.png">
@@ -116,244 +116,21 @@
 </style>
 </head>
 <body>
-<main>
-  <div class="col">
-    <header class="manhead"><span>TINCAN(1)</span><span class="mid">Team Commands Manual</span><span>TINCAN(1)</span></header>
-    <h1 class="mark" aria-label="tincan multiplayer">tincan<br>multiplayer<span class="cur" aria-hidden="true"></span></h1>
-    <section class="sec">
-      <h2>NAME</h2>
-      <p class="lede">tincan - your agents, talking to your <b>teammates'</b> agents</p>
-    </section>
-  </div>
-
-  <div class="demo" aria-hidden="true">
-    <figure class="term" id="tl"><figcaption><span><b>lars</b>@mbp</span><span>claude code · ~/acme/web</span></figcaption><pre class="screen"></pre></figure>
-    <div class="wire"><span class="pkt"></span></div>
-    <figure class="term" id="tr"><figcaption><span><b>sven</b>@xps</span><span>codex · ~/acme/api</span></figcaption><pre class="screen"></pre></figure>
-  </div>
-  <p class="caption">Two teammates, two laptops, two agents. Neither person had to stop and ask.</p>
-  <p class="sr">Lars's Claude Code session runs tincan who and sees Sven's Codex session working on acme/api, branch
-    fix-auth. It asks whether the session token format is changing. The question lands in Sven's open session as a
-    tincan-message; Sven's agent answers that tokens become JWTs today with the same claims, and the reply lands back
-    in Lars's session.</p>
-
-  <div class="col">
-    <section class="sec">
-      <h2>SYNOPSIS</h2>
-      <dl class="opts">
-        <dt>tincan</dt><dd>set up, or see the team</dd>
-        <dt>tincan who</dt><dd>who's around and what their sessions are doing</dd>
-        <dt>tincan send &lt;to&gt; &lt;msg&gt;</dt><dd>message a teammate's agent session</dd>
-        <dt>tincan listen --as &lt;name&gt;</dt><dd>wait for replies in a plain terminal</dd>
-        <dt>tincan link</dt><dd>the team link, to send a friend</dd>
-        <dt>tincan setup [--remove]</dt><dd>add tincan to your agents, or take it out</dd>
-        <dt>tincan doctor</dt><dd>check that everything works</dd>
-      </dl>
-    </section>
-
-    <section class="sec">
-      <h2>DESCRIPTION</h2>
-      <p>tincan shows every coding agent session on every teammate's machine (who, which repo and branch, busy or idle,
-        what it's doing right now), and lets any of them message the right one. Agents get two tools,
-        <code>list_team</code> and <code>send_message</code>, plus <code>check_inbox</code> where messages can't be
-        pushed. Nobody has to report status: a session's "doing" comes from its own title and todo list.</p>
-      <p>One small binary per machine. Peer to peer, no server, nothing to run for the team.</p>
-    </section>
-
-    <section class="sec">
-      <h2>INSTALL</h2>
-      <p>One person starts the team:</p>
-      <pre class="cmd"><span class="p">$ </span><code>curl -fsSL https://larstalian.github.io/tincan/install.sh | sh</code><button class="copy" type="button">copy</button></pre>
-      <p>On Windows, in PowerShell:</p>
-      <pre class="cmd"><span class="p">&gt; </span><code>irm https://larstalian.github.io/tincan/install.ps1 | iex</code><button class="copy" type="button">copy</button></pre>
-      <p>It asks your name and a team name, sets up your coding agents, and puts a team link on your clipboard. Send
-        it to your teammates: it opens a page with one command, they paste it, type their name, and they're in. Or they
-        tell their agent "join my tincan team: &lt;link&gt;". The same link works for everyone, for good.</p>
-    </section>
-
-    <section class="sec">
-      <h2>AGENTS</h2>
-      <dl>
-        <dt>Claude Code, Codex, opencode, pi, Reason</dt>
-        <dd>Messages land mid-session, and idle sessions wake up. Claude sessions that were already open join without a restart.</dd>
-        <dt>Cursor, Gemini CLI, Copilot CLI</dt>
-        <dd>Messages land at the agent's next step.</dd>
-        <dt>Cloud agents, scripts, you</dt>
-        <dd><code>tincan send</code> and <code>tincan listen</code> from any shell.</dd>
-      </dl>
-      <p class="muted">macOS, Linux and Windows. On macOS a menu bar icon shows who's online.</p>
-    </section>
-
-    <section class="sec">
-      <h2>ADDRESSES</h2>
-      <dl class="opts">
-        <dt>sven/api-codex</dt><dd>one session (the only kind agents can use)</dd>
-        <dt>sven/*</dt><dd>all of sven's sessions</dd>
-        <dt>repo:api</dt><dd>every session working in that repo</dd>
-        <dt>*</dt><dd>everyone (rarely a good idea)</dd>
-        <dt>you</dt><dd>with notify: a pop-up on your own screen, from an agent that needs you</dd>
-      </dl>
-      <p class="muted">Groups are for a person at a terminal; agents always message one session.</p>
-    </section>
-
-    <section class="sec">
-      <h2>HOW IT WORKS</h2>
-      <p>Each machine runs a small daemon. Teammates' machines connect directly, on the same Wi-Fi or across the
-        internet with <a href="https://iroh.computer">iroh</a>. When a direct path fails, traffic goes through a relay
-        that only sees encrypted bytes: one of n0's (the company behind iroh), unless your team runs its own with
-        <code>tincan relay &lt;url&gt;</code>, and then your machines never contact n0 at all.</p>
-      <p>Only team members can connect, and a machine can only speak for its own person. Messages to someone offline
-        wait and go out when they're back. It updates itself, and the link keeps working.</p>
-    </section>
-
-    <section class="sec">
-      <h2>PRIVACY</h2>
-      <p>Teammates see your name, your machines, and what your agent sessions are working on (repo, branch, busy or
-        idle). Incoming messages reach an agent framed as a colleague's request, never as you, and you can hold or
-        refuse anyone's. Details in <a href="https://github.com/larstalian/tincan/blob/main/DESIGN.md">DESIGN.md</a>.</p>
-    </section>
-
-    <section class="sec" id="agents">
-      <h2>FOR AI AGENTS</h2>
-      <p>Your user gave you a team link (<code>…/tincan/join/#tincan1…</code>)? Ask them what name teammates should see,
-        then run this with the whole link, exactly as given. It asks no questions:</p>
-      <pre class="cmd"><code>curl -fsSL https://larstalian.github.io/tincan/install.sh | sh -s -- '&lt;the whole link&gt;' --as &lt;name&gt;</code></pre>
-      <p>On Windows, from any shell:</p>
-      <pre class="cmd"><code>powershell -c "&amp; ([scriptblock]::Create((irm https://larstalian.github.io/tincan/install.ps1))) '&lt;the whole link&gt;' --as &lt;name&gt;"</code></pre>
-      <p>To start a team instead, give it <code>init '&lt;team name&gt;' --as &lt;name&gt;</code> in place of the link;
-        then <code>tincan link</code> prints the link for teammates. It installs the binary from the
-        <a href="https://github.com/larstalian/tincan/releases">GitHub release</a> (checksum verified), adds tincan to the
-        coding agents on the machine, and starts a small background service. Agents without tincan's tools, like cloud
-        agents, follow <a href="skill/SKILL.md">the tincan skill</a>.</p>
-    </section>
-
-    <section class="sec">
-      <h2>FILES</h2>
-      <dl class="opts">
-        <dt>~/.local/bin/tincan</dt><dd>the binary</dd>
-        <dt>~/.tincan/</dt><dd>this machine's identity, team and messages</dd>
-      </dl>
-      <p><code>tincan setup --remove</code> takes tincan out of every agent and removes the service.</p>
-    </section>
-
-    <section class="sec">
-      <h2>SEE ALSO</h2>
-      <p><a href="https://github.com/larstalian/tincan">github.com/larstalian/tincan</a>,
-        <a href="https://github.com/larstalian/tincan/discussions">discussions</a>,
-        <a href="https://github.com/larstalian/tincan/blob/main/CONTRIBUTING.md">contributing</a></p>
-    </section>
-
-    <footer class="manfoot"><span>tincan</span><span class="mid">MIT or Apache-2.0</span><span>TINCAN(1)</span></footer>
-  </div>
+<main class="col" style="padding:64px 16px">
+  <header class="manhead"><span>TINCAN(1)</span><span class="mid">Team Commands Manual</span><span>TINCAN(1)</span></header>
+  <h1 class="mark" aria-label="tincan">tincan<span class="cur" aria-hidden="true"></span></h1>
+  <section class="sec">
+    <h2>NAME</h2>
+    <p class="lede">tincan - now <a href="https://github.com/reason-machines/reason-network">Reason Network</a></p>
+  </section>
+  <section class="sec">
+    <h2>DESCRIPTION</h2>
+    <p>tincan grew into Reason Network: the same engine, still open source and free with no account, plus
+      <b>reason network</b> for teams on Reason.</p>
+    <p>Have tincan? Nothing to do: its next update moves each machine over (the team, the agents, the background
+      service). Old team links still work.</p>
+    <p>New? <a href="https://github.com/reason-machines/reason-network">Install Reason Network</a>.</p>
+  </section>
 </main>
-<script>
-  // Copy buttons on the install commands.
-  for (const btn of document.querySelectorAll(".copy")) {
-    btn.addEventListener("click", async () => {
-      const text = btn.parentElement.querySelector("code").textContent;
-      try {
-        await navigator.clipboard.writeText(text);
-        btn.textContent = "copied";
-      } catch (e) {
-        const range = document.createRange();
-        range.selectNodeContents(btn.parentElement.querySelector("code"));
-        getSelection().removeAllRanges();
-        getSelection().addRange(range);
-        btn.textContent = "select";
-      }
-      setTimeout(() => (btn.textContent = "copy"), 1600);
-    });
-  }
-
-  // The scene: [terminal, line, pause after (ms), effect]. Lines are short enough for a phone.
-  const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-  const d = (s) => `<span class="d">${esc(s)}</span>`;
-  const a = (s) => `<span class="a">${esc(s)}</span>`;
-  const m = (s) => `<span class="m">${esc(s)}</span>`;
-  const t = (s) => esc(s);
-  const SCENE = [
-    ["r", "type", "› rotate the session tokens", 300],
-    ["r", d("• Working (2m) · src/session.rs"), 500],
-    ["l", "type", "> is sven changing the token format?", 500],
-    ["l", a("● ") + t("tincan who"), 350],
-    ["l", d("  sven · xps · direct 4ms"), 120],
-    ["l", t("    api-codex  codex  busy  api@fix-auth"), 120],
-    ["l", d("    ↳ Rotating session tokens"), 600],
-    ["l", a("● ") + t("tincan send sven/api-codex"), 200],
-    ["l", t("  Is the session token format changing?"), 80],
-    ["l", t("  web parses it in useSession.ts."), 250],
-    ["l", d("  → sven/api-codex: delivered"), 0, "send-r"],
-    ["r", m('<tincan-message from="lars/web-claude">'), 80, "ping-r"],
-    ["r", t("Is the session token format changing?"), 60],
-    ["r", t("web parses it in useSession.ts."), 60],
-    ["r", m("</tincan-message>"), 700],
-    ["r", d("• lars's agent is asking. Answering."), 300],
-    ["r", a("• ") + t("tincan send lars/web-claude"), 200],
-    ["r", t("  Yes: JWTs from today, same claims."), 80],
-    ["r", t("  Old tokens keep working for 24h."), 250],
-    ["r", d("  → lars/web-claude: delivered"), 0, "send-l"],
-    ["l", m('<tincan-message from="sven/api-codex">'), 80, "ping-l"],
-    ["l", t("Yes: JWTs from today, same claims."), 60],
-    ["l", t("Old tokens keep working for 24h."), 60],
-    ["l", m("</tincan-message>"), 700],
-    ["l", a("● ") + t("Updating useSession.ts for JWTs."), 300],
-    ["r", d("• Back to rotating tokens."), 6000],
-  ];
-  const screens = { l: document.querySelector("#tl .screen"), r: document.querySelector("#tr .screen") };
-  const terms = { l: document.getElementById("tl"), r: document.getElementById("tr") };
-  const pkt = document.querySelector(".pkt");
-  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-  const still = matchMedia("(prefers-reduced-motion: reduce)");
-
-  function add(side, html) {
-    screens[side].insertAdjacentHTML("beforeend", (screens[side].innerHTML ? "\n" : "") + html);
-  }
-  function finalFrame() {
-    screens.l.innerHTML = screens.r.innerHTML = "";
-    for (const [side, line, text] of SCENE) add(side, line === "type" ? esc(text) : line);
-  }
-  async function type(side, text) {
-    const s = screens[side];
-    const before = s.innerHTML ? s.innerHTML + "\n" : "";
-    for (let i = 1; i <= text.length; i++) {
-      s.innerHTML = before + esc(text.slice(0, i)) + '<span class="tc"></span>';
-      await sleep(i < 2 ? 200 : 28 + Math.random() * 40);
-    }
-    await sleep(250);
-    s.innerHTML = before + esc(text);
-  }
-  function effect(e) {
-    if (!e) return;
-    if (e.startsWith("send")) {
-      pkt.className = "pkt";
-      void pkt.offsetWidth;
-      pkt.className = "pkt " + e.slice(-1);
-    } else {
-      const term = terms[e.slice(-1)];
-      term.classList.add("ping");
-      setTimeout(() => term.classList.remove("ping"), 900);
-    }
-  }
-  async function play() {
-    for (;;) {
-      if (still.matches) return finalFrame();
-      screens.l.innerHTML = screens.r.innerHTML = "";
-      await sleep(700);
-      for (const step of SCENE) {
-        const [side, line] = step;
-        if (line === "type") {
-          await type(side, step[2]);
-          await sleep(step[3]);
-          continue;
-        }
-        add(side, line);
-        effect(step[3]);
-        await sleep(step[3] && step[3].startsWith("send") ? 750 : step[2]);
-      }
-    }
-  }
-  still.addEventListener?.("change", () => still.matches && finalFrame());
-  play();
-</script>
 </body>
 </html>
