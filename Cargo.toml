@@ -1,6 +1,6 @@
 [package]
 name = "tincan"
-version = "0.10.0"
+version = "0.10.1"
 edition = "2024"
 description = "tincan multiplayer: your agents, talking to your teammates' agents, peer to peer"
 license = "MIT OR Apache-2.0"
