@@ -20,13 +20,16 @@ case "${REASON_NETWORK_VERSION:-latest}" in
 esac
 
 say() { printf '%s\n' "$*"; }
+die() { say "tincan install: $*; tincan is unchanged" >&2; exit 1; }
 say "tincan is now Reason Network: installing reason-network."
-curl -fsSL "$script" | REASON_NETWORK_BIN_DIR="$bin_dir" REASON_NETWORK_NO_PROMPT=1 sh
+installer="$(curl -fsSL "$script")" || die "couldn't download reason-network's installer ($script)"
+printf '%s\n' "$installer" | REASON_NETWORK_BIN_DIR="$bin_dir" REASON_NETWORK_NO_PROMPT=1 sh || die "installing reason-network failed"
+[ -x "$bin_dir/reason-network" ] || die "reason-network isn't in $bin_dir"
 if [ -e "$bin_dir/tincan" ]; then
-  # A new file, not the old one overwritten (macOS kills a signed binary changed in place).
-  rm -f "$bin_dir/tincan"
-  cp "$bin_dir/reason-network" "$bin_dir/tincan"
-  chmod 755 "$bin_dir/tincan"
+  # A new file renamed into place: never a moment without tincan, and never the old one changed in place (macOS kills a
+  # signed binary changed in place).
+  cp "$bin_dir/reason-network" "$bin_dir/.tincan.new" && chmod 755 "$bin_dir/.tincan.new" &&
+    mv -f "$bin_dir/.tincan.new" "$bin_dir/tincan" || { rm -f "$bin_dir/.tincan.new"; die "couldn't put the copy in place"; }
 fi
 
 if [ -z "${TINCAN_NO_PROMPT:-}" ] && (exec </dev/tty) 2>/dev/null; then
@@ -37,7 +40,7 @@ if [ -z "${TINCAN_NO_PROMPT:-}" ] && (exec </dev/tty) 2>/dev/null; then
   esac
 fi
 case "${1:-}" in
-  "") [ -n "${TINCAN_NO_PROMPT:-}" ] || { say ""; say "Next, in a terminal: reason-network"; } ;;
+  "") ;;
   -*|init|join|setup) exec "$bin_dir/reason-network" "$@" ;;
   *) exec "$bin_dir/reason-network" join "$@" ;;
 esac

@@ -73,14 +73,15 @@
     <pre>curl -fsSL https://larstalian.github.io/tincan/install.sh | sh -s -- '&lt;the whole link&gt;' --as &lt;name&gt;</pre>
     <p>On Windows:</p>
     <pre>powershell -c "&amp; ([scriptblock]::Create((irm https://larstalian.github.io/tincan/install.ps1))) '&lt;the whole link&gt;' --as &lt;name&gt;"</pre>
-    <p>It asks no questions. It downloads the tincan binary for this OS and CPU from the project's GitHub release
-      (checksum verified) into <code>~/.local/bin</code>, joins the team, adds tincan to the coding agents installed
-      here (an MCP server and hooks for Claude Code, Codex, Cursor, Gemini CLI, Copilot CLI, opencode, pi; Reason if
-      present), starts a small background service, and prints the team when done. At least one teammate's machine
-      must be online for the join to go through. To undo: <code>tincan setup --remove</code>, then delete
-      <code>~/.tincan</code> and <code>~/.local/bin/tincan</code>.</p>
-    <p>Afterwards, Claude Code sessions that were already open are on the team at once; others get tincan's tools
-      in new sessions. Run <code>tincan who</code> to see the team.</p>
+    <p>It asks no questions. tincan is now Reason Network: it downloads the reason-network binary for this OS and CPU
+      from <a href="https://github.com/reason-machines/reason-network">its GitHub release</a> (checksum verified) into
+      <code>~/.local/bin</code>, joins the team, adds it to the coding agents installed here (an MCP server and hooks
+      for Claude Code, Codex, Cursor, Gemini CLI, Copilot CLI, opencode, pi; Reason if present), starts a small
+      background service, and prints the team when done. At least one teammate's machine must be online for the join to
+      go through. To undo: <code>reason-network leave</code>, <code>reason-network setup --remove</code>, then delete
+      <code>~/.reason/network</code> and <code>~/.local/bin/reason-network</code>.</p>
+    <p>Afterwards, Claude Code sessions that were already open are on the team at once; others get the tools in new
+      sessions. Run <code>reason-network who</code> to see the team.</p>
   </section>
 </main>
 <script>
@@ -148,7 +149,7 @@
   } else {
     document.getElementById("ok").innerHTML =
       '<h1>This link is incomplete</h1><p class="muted">Ask whoever sent it for the team link again (they can see it ' +
-      'with <code>tincan link</code>), and open the whole thing.</p><p><a href="../">What is tincan?</a></p>';
+      'with <code>reason-network link</code>), and open the whole thing.</p><p><a href="../">What is tincan?</a></p>';
     document.getElementById("for-agents").hidden = true;
   }
 </script>

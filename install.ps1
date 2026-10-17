@@ -16,26 +16,29 @@
   $script = if ($env:REASON_NETWORK_VERSION) { "$releases/download/$($env:REASON_NETWORK_VERSION)/install.ps1" } else { "$releases/latest/download/install.ps1" }
 
   Write-Host 'tincan is now Reason Network: installing reason-network.'
+  $saved = @{ BIN = $env:REASON_NETWORK_BIN_DIR; PROMPT = $env:REASON_NETWORK_NO_PROMPT }
   $env:REASON_NETWORK_BIN_DIR = $bin
   $env:REASON_NETWORK_NO_PROMPT = '1'
   try { & ([scriptblock]::Create((Invoke-RestMethod -UseBasicParsing $script))) } finally {
-    Remove-Item Env:REASON_NETWORK_BIN_DIR, Env:REASON_NETWORK_NO_PROMPT -ErrorAction SilentlyContinue
+    $env:REASON_NETWORK_BIN_DIR = $saved.BIN
+    $env:REASON_NETWORK_NO_PROMPT = $saved.PROMPT
   }
   $exe = Join-Path $bin 'reason-network.exe'
+  if (-not (Test-Path $exe)) { throw "tincan install: reason-network isn't in $bin; tincan is unchanged" }
   $old = Join-Path $bin 'tincan.exe'
   if (Test-Path $old) {
-    # A running tincan.exe can't be replaced, but it can be renamed: move it aside, and delete the ones set aside
-    # before once nothing runs them.
+    # A running tincan.exe can't be replaced, but it can be renamed: the copy goes in first as tincan.new, then the old
+    # one moves aside and the copy into place (back again if that fails). Ones set aside before go once nothing runs them.
+    $new = Join-Path $bin 'tincan.new'
+    Copy-Item $exe $new -Force
     Get-ChildItem $bin -Filter 'tincan.*.old' | Remove-Item -Force -ErrorAction SilentlyContinue
-    Move-Item $old (Join-Path $bin "tincan.$(Get-Random).old")
-    Copy-Item $exe $old
+    $aside = Join-Path $bin "tincan.$(Get-Random).old"
+    Move-Item $old $aside
+    try { Move-Item $new $old } catch { Move-Item $aside $old; Remove-Item $new -Force -ErrorAction SilentlyContinue; throw }
   }
 
   if ($args.Count -eq 0) {
-    if ($env:TINCAN_NO_PROMPT -or [Console]::IsInputRedirected) {
-      if (-not $env:TINCAN_NO_PROMPT) { Write-Host ''; Write-Host 'Next, in a terminal: reason-network' }
-      return
-    }
+    if ($env:TINCAN_NO_PROMPT -or [Console]::IsInputRedirected) { return }
     & $exe
   } elseif ($args[0] -match '^(-.*|init|join|setup)$') {
     & $exe @args
